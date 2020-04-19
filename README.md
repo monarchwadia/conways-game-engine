@@ -21,7 +21,7 @@ See [examples/custom-rules](./examples/custom-rules/index.js)
 Below are configuration options with their default values.
 
 ```javascript
-const { ConwaysGameEngine, defaultRules } = require('@monarchwadia/conways-game-engine);
+const { ConwaysGameEngine, defaultRules } = require('@monarchwadia/conways-game-engine');
 
 const config = {
   // Width of the board. 
