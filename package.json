@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js"
   },
-  "description": "Author: [Monarch Wadia](https://linkedin.com/in/monarchwadia)",
+  "description": "Game engine for Conway's Game of Life with customizable cellular automaton rules and 0 dependencies.",
   "directories": {
     "example": "examples"
   },
