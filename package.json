@@ -6,5 +6,29 @@
   "license": "MIT",
   "scripts": {
     "start": "node index.js"
-  }
+  },
+  "description": "Author: [Monarch Wadia](https://linkedin.com/in/monarchwadia)",
+  "directories": {
+    "example": "examples"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monarchwadia/conways-game-engine.git"
+  },
+  "keywords": [
+    "game",
+    "conway",
+    "life",
+    "automaton",
+    "cellular",
+    "node",
+    "configurable",
+    "custom",
+    "rules",
+    "engine"
+  ],
+  "bugs": {
+    "url": "https://github.com/monarchwadia/conways-game-engine/issues"
+  },
+  "homepage": "https://github.com/monarchwadia/conways-game-engine#readme"
 }
