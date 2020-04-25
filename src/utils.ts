@@ -1,5 +1,6 @@
 import { ON, INHERIT } from './constants';
-import { ConwaysGameEngine, World, Rule } from './interfaces';
+import { World, Rule } from './interfaces';
+import { ConwaysGameEngine } from './index';
 
 export function times(iterations: number, callback: (number: number) => void) {
   for (let i = 0; i < iterations; i++) {

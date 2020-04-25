@@ -295,6 +295,53 @@ I see the need now for a bit of a refactor. The project is a bit messy right now
 
 [Here's the commit][commit-2b] for Phase 2b
 
+# Phase 3 - Frontend Example Project
+
+Finally, I'm done with building unit testing and converting the project to typescript. Now, I can focus on building a browser-based project.
+
+As you know, browsers don't support Typescript out of the box, so we have to compile our project down into a format that can be ingested by other projects.
+
+# Phase 3a - Creating the build step
+
+I actually hadn't built the project at all yet. I was just running off Jest. It's now finally time to create a build step.
+
+The build step will output JS files from the TS source. To do this, I need to add a `.babelrc`, add `@babel/core` and `@babel-preset-typescript`. [This blog article](https://medium.com/collaborne-engineering/typescript-create-library-for-nodejs-and-browser-fece291d517f) helped point me in the right direction. After messing around with the dependencies a bit, I finally had a working TSConfig. Now I am outputting the files into `/dist`
+
+Unfortunately, there is a little bit more work that needs to be done, since I see that `dist/` includes my `test` files as well. This isn't right, and it's because of the glob pattern I defined in my `tsconfig.json`:
+
+```json
+// tsconfig.json
+{
+  // ...
+  "include": [
+    "./**/*.ts"
+  ]
+}
+```
+
+This won't do, so I've refactored the project into a proper `src` directory and changed the `include` to say `"./src/**/*.ts"` instead.
+
+Project build process is now successfully occurring using `tsc`. However, it is not a single `bundle.js` file, which is how I'm used to bundling my projects. I went ahead and installed `webpack`, which is a more flexible build system than `tsc` anyway.  I also added `webpack.config.js`. Now, `yarn build` outputs `dist/bundle.js`, which I will attempt to import in a browser project. I redefine my `package.json::main` to be `dist/bundle.js`. I had added `dist/` to gitignore in the previous commit, but i carefully remove that entry, to ensure that my published package on NPM is able to be imported successfully.
+
+In order to test the exports, I've started a simple browser project, `./examples/browser`, which uses Parcel bundler to import dependencies. I use `yarn link` to make the main module available for imports without depending on relative paths. Then, I initialize my project and run `yarn add @monarchwadia/conways-game-engine`. VSCode is immediately aware of the Typescript types of my imports within the example project. 
+
+Unfortunately, I quickly found out that my project was not able to be imported correctly. After some research, I found out that my module bundling method has to be UMD. Without packaging the project as a UMD module, the `bundle.js`'s exports were `undefined`. So I had to add the following properties in `webpack.config.js`:
+
+```javascript
+{
+  // ..
+  output: {
+    // ..
+    libraryTarget: "umd",
+    library: "@monarchwadia/conways-game-engine"
+  }
+}
+```
+
+On running the project now, a simple `console.log` of the library's exports shows that we are exporting our project correctly.
+
+This was a very messy entry. [Here is a link to the commit][commit-3a], there you can see the extent of my work here. I'm now going to build a simple browser-based version of the project.
+
 
 [starting-commit]: https://github.com/monarchwadia/conways-game-engine/tree/v1.0.1
 [commit-0]: https://github.com/monarchwadia/conways-game-engine/commit/0bb4fc500fd84b4734270a3bb38ab3a115e55819
@@ -302,4 +349,5 @@ I see the need now for a bit of a refactor. The project is a bit messy right now
 [commit-1b]: https://github.com/monarchwadia/conways-game-engine/commit/b3596d93916d8a6826b1d1a895660045e89de127
 [commit-1c]: https://github.com/monarchwadia/conways-game-engine/commit/fa1229382fcc9e4247d7f120f3c384f7e6ebb1e3
 [commit-2a]: https://github.com/monarchwadia/conways-game-engine/commit/0e1c64be1a78239290872782e0b7d324efa3962a
-[commit-2b]: TODO
+[commit-2b]: https://github.com/monarchwadia/conways-game-engine/commit/aff796c31a2eb186d11f1ab4233d96639393d74d
+[commit-3a]: https://github.com/monarchwadia/conways-game-engine/commit/TODO

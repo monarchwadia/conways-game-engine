@@ -1,5 +1,5 @@
-import { ConwaysGameEngine } from "..";
-import { World } from "../interfaces";
+import { ConwaysGameEngine } from "../src/index";
+import { World } from "../src/interfaces";
 import { buildGridTesterBuilder } from './helpers.types';
 
 declare const global: any;

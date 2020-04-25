@@ -1,4 +1,4 @@
-import { ConwaysGameEngine } from "../index";
+import { ConwaysGameEngine } from "../src/index";
 
 let engine: ConwaysGameEngine;
 
