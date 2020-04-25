@@ -134,3 +134,21 @@ Now, I can test a step like so:
 ```
 
 I have a glider test fully operational now.
+
+# Step 1c - Adding a simple test for the engine's configurable rules.
+
+The engine is supposed to be able to take various different rulesets, not just Conway's game of life. We'll now add a simple test for the rulesets.
+
+I created `test/customRules.test.js`, and then realized that I would want to share `testConfiguration` across files. I didn't know how to do it, so I googled it and found [this helpful thread](https://stackoverflow.com/questions/50411719/shared-utils-functions-for-testing-with-jest/52910794) that described how to use Jest's `setupFilesAfterEnv` to add a global helper. 
+
+I refactored the [function signature](https://hackernoon.com/function-type-signatures-in-javascript-5c698c1e9801) of the helper a bit, put it into its own file, and exposed it as a global. Now, I can share it between multiple files.
+
+I added a very simple ruleset -- 
+ 1. OFF cells become ON
+ 2. ON cells become OFF
+
+So essentially, all cells are blinking lights that go ON-OFF-ON-OFF-ON, etc.
+
+Then I tested it. It worked as expected.
+
+Great! Now I'm confident enough to move on to actual typescript conversion. "Testing" is now done.
