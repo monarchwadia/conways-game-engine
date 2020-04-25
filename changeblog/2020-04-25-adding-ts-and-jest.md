@@ -35,6 +35,8 @@ Here are the constraints I'm working with:
 
 # Strategy
 
+Typescript works pretty well with plain JavaScript. It is completely possible to gradually port JS over to TS one step at a time, rather than as a whole. So we will start porting JS over one small step at a time.
+
 I decided that I'd first install unit testing and fully test the project in plain Javascript. The little time I have right now to work on a personal project needs to be efficiently used, and any errors would leave an impact on the amount of time I have available to dedicate to my business.
 
 This current commit adds the HOW-I-DID-IT md file to this project.
@@ -43,7 +45,7 @@ This current commit adds the HOW-I-DID-IT md file to this project.
 
 I've never done this before, but `changeblog` sounds like a good name for documenting changes as you go in a project. So I'm committing this file here.
 
-# Step 1 - Adding unit tests.
+# Step 1a - Adding unit tests for drawing and erasing.
 
 I first installed `jest`, then added a `test` script to `package.json`
 
@@ -81,3 +83,54 @@ Watch Usage: Press w to show more.
 
 Excellent!
 
+# Step 1b - Adding a simple test for the engine's default Game of Life ruleset
+
+Now we will actually test the game engine itself, with the default rules. We will test the rules by seeing if a simple glider survives and behaves as expected in the normal rules of the game of life. This will be sufficient to give me enough confidence in the game to start moving to typescript.
+
+Here is an illustration of how the glider works. Note that the 5th step is identical to the 1st step, except moved down and to the right by exactly 1,1. This is pretty fascinating to me.
+
+
+![5 steps of a glider in Conway's game of life.](./glider-steps.png)
+```
+Cumming, Graeme. (2011). Introduction to Mechanistic Spatial Models for Social-Ecological Systems. 10.1007/978-94-007-0307-0_4. 
+```
+
+Unit tests should ideally be easy to modify once they have been written. They don't have to be as well-written as the actual software itself, but they should be written so that they're easy to reason about when you go back and read them a few weeks/months/years after the fact.
+
+Now, it would be very painful to actually program this test line-by-line, inserting coordinates and on/off expectations in a typical `expect().toBe()` format. So I created a utility function that does that for me.
+
+```javascript
+function testConfiguration(expectation, engine, originRow, originCol) {
+  for (var row = 0; row < expectation.length; row++) {
+    for (var col = 0; col < expectation[row].length; col++) {
+      
+      // the "origin" here refers to the top-left corner of the metaphorical "viewport"
+      const worldRow = originRow + row, // pan the metaphorical "viewport" over to the origin
+            worldCol = originCol + col; // pan the metaphorical "viewport" down to the origin
+      
+
+      const expectedState = expectation[row][col];
+      const worldState = engine.getState(worldRow, worldCol);
+
+      expect(worldState, `Was testing [Row: ${worldRow}][Col: ${worldCol}]`).toBe(expectedState);
+    }
+  }
+}
+```
+
+Now, I can test a step like so:
+
+```javascript
+
+  // step 4
+  engine.step();
+  testConfiguration([
+    [0,0,0,0],
+    [0,1,0,0],
+    [0,0,1,1],
+    [0,1,1,0],
+  ], engine, 3, 3)
+
+```
+
+I have a glider test fully operational now.

@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/monarchwadia/conways-game-engine#readme",
   "devDependencies": {
-    "jest": "^25.4.0"
+    "jest": "^25.4.0",
+    "jest-expect-message": "^1.0.2"
   }
 }
