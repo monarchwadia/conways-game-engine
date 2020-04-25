@@ -1,18 +1,21 @@
-const { ConwaysGameEngine } = require('../index');
+import { buildGridTesterBuilder } from "./helpers.types";
+import { ConwaysGameEngine } from '../index';
 
-let engine;
+declare const buildGridTesterBuilder: buildGridTesterBuilder;
+
+let engine: ConwaysGameEngine;
 
 beforeEach(() => {
   engine = new ConwaysGameEngine({
     rules: [
       {
         name: "Turn off cells that are on",
-        matcher: (currState, numberOfNeighbours) => currState === 1,
+        matcher: (currState) => currState === 1,
         result: 0
       },
       {
         name: "Turn on cells that are off",
-        matcher: (currState, numberOfNeighbours) => currState === 0,
+        matcher: (currState) => currState === 0,
         result: 1
       }
     ]
@@ -20,12 +23,12 @@ beforeEach(() => {
 })
 
 test('Erasing multiple times is idempotent', () => {
-  const gridTester = buildGridTester(engine, 0, 0);
+  const gridTester = buildGridTesterBuilder(engine, 0, 0);
 
   // draw 0,0 and 1,1
-  engine.draw(0,0);
-  engine.draw(1,1);
-  
+  engine.draw(0, 0);
+  engine.draw(1, 1);
+
   // test that it looks good
   gridTester([
     [1, 0, 0],
@@ -44,7 +47,7 @@ test('Erasing multiple times is idempotent', () => {
   ]);
 
   // erase 0,2 in ON state. does it survive as ON after the engine.step()?
-  engine.erase(0,1);
+  engine.erase(0, 1);
   engine.step();
   gridTester([
     [1, 1, 0],
@@ -52,4 +55,4 @@ test('Erasing multiple times is idempotent', () => {
     [0, 0, 0],
     [0, 0, 0],
   ]);
-})
+});

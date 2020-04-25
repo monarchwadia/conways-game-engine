@@ -1,19 +1,24 @@
-const { initWorld, getNumberOfNeighbours, calculateNewWorldState } = require('./utils');
-const { ON, OFF } = require('./constants');
+import { initWorld, getNumberOfNeighbours, calculateNewWorldState } from './utils';
+import { ON, OFF } from './constants';
 
-class ConwaysGameEngine {
-  constructor(config={}) {
+import { ConwaysGameEngineInterface, World, Config, Rule } from './interfaces';
+
+export class ConwaysGameEngine implements ConwaysGameEngineInterface {
+  world: World;
+  config: Config;
+
+  constructor(config?: Config) {
     this.config = {
-      rowSize: config.rowSize || 10,
-      colSize: config.colSize || 10,
-      rules: config.rules || defaultRules(),
-      allowMultipleRuleMatches: config.allowMultipleRuleMatches || false
+      rowSize: config && config.rowSize || 10,
+      colSize: config && config.colSize || 10,
+      rules: config && config.rules || defaultRules(),
+      allowMultipleRuleMatches: config && config.allowMultipleRuleMatches || false
     }
 
     this.world = initWorld(OFF, this.config.rowSize, this.config.colSize);
   }
 
-  getState(row, col) {
+  getState(row: number, col: number) {
     return this.world[row][col];
   }
 
@@ -22,16 +27,16 @@ class ConwaysGameEngine {
     return this.world;
   }
 
-  draw(row, col) {
+  draw(row: number, col: number) {
     this.world[row][col] = ON;
   }
 
-  erase(row, col) {
+  erase(row: number, col: number) {
     this.world[row][col] = OFF;
   }
 }
 
-const defaultRules = () => [
+export const defaultRules = (): Rule[] => [
   // 1. Any live cell with fewer than two live neighbours dies, as if by underpopulation.
   {
     name: "Loneliness",
@@ -56,9 +61,4 @@ const defaultRules = () => [
     matcher: (currState, numberOfNeighbours) => currState === OFF && numberOfNeighbours === 3,
     result: ON
   }
-]
-
-module.exports = {
-  ConwaysGameEngine,
-  defaultRules
-}
+];

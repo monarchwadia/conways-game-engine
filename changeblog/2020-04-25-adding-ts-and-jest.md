@@ -36,7 +36,7 @@ Here are the constraints I'm working with:
 
 ## Strategy
 
-Typescript works pretty well with plain JavaScript. It is completely possible to gradually port JS over to TS one step at a time, rather than as a whole. So we will start porting JS over one small step at a time.
+Typescript works pretty well with plain JavaScript. It is completely possible to gradually port JS over to TS one step at a time, rather than as a whole. So I will start porting JS over one small step at a time.
 
 I decided that I'd first install unit testing and fully test the project in plain Javascript. The little time I have right now to work on a personal project needs to be efficiently used, and any errors would leave an impact on the amount of time I have available to dedicate to my business.
 
@@ -66,7 +66,7 @@ yarn add -D jest
 }
 ```
 
-( I used `--watchAll` instead of `--watch`. Jest's `--watch` command only runs tests on files that have diffed. For now, we have so few tests, and our project is so lightweight, that a comprehensive test of all files would let me sleep better at night. So, I'm using `--watchAll`).
+( I used `--watchAll` instead of `--watch`. Jest's `--watch` command only runs tests on files that have diffed. For now, I have so few tests, and my project is so lightweight, that a comprehensive test of all files would let me sleep better at night. So, I'm using `--watchAll`).
 
 I added a few simple tests in `/test`, then run `yarn test`, and here is our output:
 
@@ -90,7 +90,7 @@ Excellent! Here's the [link to the git commit for this section][commit-1a] in ca
 
 ## Phase 1b - Adding a simple test for the engine's default Game of Life ruleset
 
-Now we will actually test the game engine itself, with the default rules. We will test the rules by seeing if a simple glider survives and behaves as expected in the normal rules of the game of life. This will be sufficient to give me enough confidence in the game to start moving to typescript.
+Now I will actually test the game engine itself, with the default rules. I will test the rules by seeing if a simple glider survives and behaves as expected in the normal rules of the game of life. This will be sufficient to give me enough confidence in the game to start moving to typescript.
 
 Here is an illustration of how the glider works. Note that the 5th step is identical to the 1st step, except moved down and to the right by exactly 1,1. This is pretty fascinating to me.
 
@@ -142,7 +142,7 @@ I have a glider test fully operational now. Here's the [link to the commit for t
 
 ## Phase 1c - Adding a simple test for the engine's configurable rules.
 
-The engine is supposed to be able to take various different rulesets, not just Conway's game of life. We'll now add a simple test for the rulesets.
+The engine is supposed to be able to take various different rulesets, not just Conway's game of life. I'll now add a simple test for the rulesets.
 
 I created `test/customRules.test.js`, and then realized that I would want to share `testConfiguration` across files. I didn't know how to do it, so I googled it and found [this helpful thread](https://stackoverflow.com/questions/50411719/shared-utils-functions-for-testing-with-jest/52910794) that described how to use Jest's `setupFilesAfterEnv` to add a global helper. 
 
@@ -168,15 +168,17 @@ Copious use of `git commit --amend` and `git push --force` let me keep this comm
 
 # Phase 2 - Adding Typescript
 
-To start adding Typescript, we must, of course, install Typescript. But we also need to make sure that Jest doesn't freak out about it -- and that TS like show the JS files look, and vice versa. So writing this sentence, I'm expecting a few issues that could possibly make me spend a lot of time in tinkering around with build processes. (I think of that stuff as the "plumbing". Not necessarily fun work, but it is rewarding when you've finished up and built a good, solid build process that really works.)
+To start adding Typescript, I must, of course, install Typescript. But I also need to make sure that Jest doesn't freak out about it -- and that TS like show the JS files look, and vice versa. So writing this sentence, I'm expecting a few issues that could possibly make me spend a lot of time in tinkering around with build processes. (I think of that stuff as the "plumbing". Not necessarily fun work, but it is rewarding when you've finished up and built a good, solid build process that really works.)
 
 To avoid unnecessary issues when converting JS files to TS, I usually start with the fringes of my project's dependency tree and work towards the main files. This way, I don't fall into the trap of resolving long chains of TS typechecking errors. Instead, the leaves and branches of my dependency tree -- the files that have the least number of imports -- are converted to TS first. For every file thus converted, Intellisense starts offering much more useful hints, making working with other JS files incrementally easier. Essentially, I'm not going against the grain. Instead, I'm working WITH the toolset, in an incremental way.
 
-This project is super easy. There aren't that many files. I'll start with `constants.js`, then move on to `utils.js`, then convert `index.js`. Then I will convert the `test` files we just made in the previous phase. Finally, I'll modify the examples to use typescript, and we will be done. 
+This project is super easy. There aren't that many files. I'll start with `constants.js`, then move on to `utils.js`, then convert `index.js`. Then I will convert the `test` files I just made in the previous phase. Finally, I'll modify the examples to use typescript, and I will be done. 
 
 So let's have at it.
 
-## Phase 2a - Installing Typescript 
+## Phase 2a - Installing Typescript and converting my first file
+
+### Installing Typescript
 
 Installing typescript is pretty easy.
 
@@ -201,9 +203,9 @@ npx ts-jest config:init
 
 At this point, `yarn test` goes off without a fight, and I'm happily running with a typescript-based Jest config.
 
-Now, we can actually start working with the files themselves.
+Now, I can actually start working with the files themselves.
 
-## Phase 2a - Converting our first file
+### Converting my first file
 
 Thanks to the great interop between Typescript and vanilla Javascript, converting a file to Typescript is a simple 2-step process:
 
@@ -262,8 +264,36 @@ export const OFF = 0;
 export const INHERIT = undefined;
 ```
 
-I'm expecting this to be an issue with every single file I edit.
+I'm expecting this to be an issue with every single file I edit. 
 
+Next, we're going to convert the rest of the project over.
+
+So now that that's done, [here's the commit][commit-2a] for this section.
+
+## Phase 2b - Converting the rest of the JS files to TS
+
+Now I'm going to convert all the files over to I'm going to use the Typescript compiler to make this work a lot easier. For starters, I'll disable implicit `any`. This will make it so that any variables that aren't explicitly typed in our entire project start throwing errors:
+
+```
+// tsconfig.json
+{
+  "compilerOptions": {
+    "noImplicitAny": true
+  }
+}
+```
+
+Now, wherever the type of a variable is not clear to Typescript, it will complain to me -- and I'll be able to go in and declare the type explicitly.
+
+I also have a class and several types that I am going to dump in `interfaces.ts` for now. This way I can use those types immediately. Eventually, once the project is entirely typescript-driven, I may move these interfaces into more appropriate locations -- global things are not usually a great idea for many reasons. I prefer having my interfaces closer to my classes. But a global `interfaces.ts` file will suffice for now.
+
+...
+
+After plugging through all the files and removing the errors, the conversion to Typescript is now complete.
+
+I see the need now for a bit of a refactor. The project is a bit messy right now. But that'll have to wait until next time. I want to build a browser-based example project now, showing the Engine being used in a browser.
+
+[Here's the commit][commit-2b] for Phase 2b
 
 
 [starting-commit]: https://github.com/monarchwadia/conways-game-engine/tree/v1.0.1
@@ -271,3 +301,5 @@ I'm expecting this to be an issue with every single file I edit.
 [commit-1a]: https://github.com/monarchwadia/conways-game-engine/commit/661ab3bb84b3d7af71ebf6a26e77661c1a645949
 [commit-1b]: https://github.com/monarchwadia/conways-game-engine/commit/b3596d93916d8a6826b1d1a895660045e89de127
 [commit-1c]: https://github.com/monarchwadia/conways-game-engine/commit/fa1229382fcc9e4247d7f120f3c384f7e6ebb1e3
+[commit-2a]: https://github.com/monarchwadia/conways-game-engine/commit/0e1c64be1a78239290872782e0b7d324efa3962a
+[commit-2b]: TODO

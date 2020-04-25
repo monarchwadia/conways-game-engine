@@ -1,6 +1,9 @@
-const { ConwaysGameEngine } = require('../index');
+import { buildGridTesterBuilder } from './helpers.types';
+import { ConwaysGameEngine } from '..';
 
-let engine;
+declare const buildGridTesterBuilder: buildGridTesterBuilder;
+
+let engine: ConwaysGameEngine;
 
 beforeEach(() => {
   engine = new ConwaysGameEngine();
@@ -28,50 +31,50 @@ test('Simple glider', () => {
   engine.draw(5, 3);
 
   // prepare tester
-  const gridTester = buildGridTester(engine, 3, 3);
+  const gridTester = buildGridTesterBuilder(engine, 3, 3);
 
   // step 1
   gridTester([
-    [0,1,0,0],
-    [0,0,1,0],
-    [1,1,1,0],
-    [0,0,0,0]
+    [0, 1, 0, 0],
+    [0, 0, 1, 0],
+    [1, 1, 1, 0],
+    [0, 0, 0, 0]
   ]);
 
   // step 2
   engine.step();
   gridTester([
-    [0,0,0,0],
-    [1,0,1,0],
-    [0,1,1,0],
-    [0,1,0,0],
+    [0, 0, 0, 0],
+    [1, 0, 1, 0],
+    [0, 1, 1, 0],
+    [0, 1, 0, 0],
   ])
 
   // step 3
   engine.step();
   gridTester([
-    [0,0,0,0],
-    [0,0,1,0],
-    [1,0,1,0],
-    [0,1,1,0],
+    [0, 0, 0, 0],
+    [0, 0, 1, 0],
+    [1, 0, 1, 0],
+    [0, 1, 1, 0],
   ])
 
   // step 4
   engine.step();
   gridTester([
-    [0,0,0,0],
-    [0,1,0,0],
-    [0,0,1,1],
-    [0,1,1,0],
+    [0, 0, 0, 0],
+    [0, 1, 0, 0],
+    [0, 0, 1, 1],
+    [0, 1, 1, 0],
   ])
 
   // step 5
   engine.step();
   gridTester([
-    [0,0,0,0],
-    [0,0,1,0],
-    [0,0,0,1],
-    [0,1,1,1],
+    [0, 0, 0, 0],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1],
+    [0, 1, 1, 1],
   ])
 })
 

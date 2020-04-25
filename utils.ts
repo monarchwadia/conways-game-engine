@@ -1,19 +1,13 @@
-const { ON, INHERIT } = require('./constants');
-const { ConwaysGameEngine } = require('./index');
+import { ON, INHERIT } from './constants';
+import { ConwaysGameEngine, World, Rule } from './interfaces';
 
-function times(iterations, callback) {
+export function times(iterations: number, callback: (number: number) => void) {
   for (let i = 0; i < iterations; i++) {
     callback(i);
   }
 }
 
-/**
- * 
- * @param {ConwaysGameEngine} engine 
- * @param {*} homeRow 
- * @param {*} homeCol 
- */
-function getNumberOfNeighbours(engine, homeRow, homeCol) {
+export function getNumberOfNeighbours(engine: ConwaysGameEngine, homeRow: number, homeCol: number) {
   const world = engine.world;
   const { rowSize, colSize } = engine.config;
 
@@ -53,8 +47,8 @@ function getNumberOfNeighbours(engine, homeRow, homeCol) {
   return numberOfNeighbours;
 }
 
-function initWorld(valueToSet, rowSize, colSize) {
-  const world = [];
+export function initWorld(valueToSet: number, rowSize: number, colSize: number) {
+  const world: World = [];
 
   times(rowSize, row => {
     world[row] = [];
@@ -67,15 +61,11 @@ function initWorld(valueToSet, rowSize, colSize) {
   return world;
 }
 
-function draw(world, row, col) {
+export function draw(world: World, row: number, col: number) {
   world[row][col] = ON;
 }
 
-/**
- * 
- * @param {ConwaysGameEngine} engine 
- */
-function calculateNewWorldState(engine) {
+export function calculateNewWorldState(engine: ConwaysGameEngine) {
   const { world: oldWorld, config } = engine;
   const { rules, rowSize, colSize, allowMultipleRuleMatches } = config;
 
@@ -87,7 +77,7 @@ function calculateNewWorldState(engine) {
       const currState = engine.getState(row, col);
       const numberOfNeighbours = getNumberOfNeighbours(engine, row, col);
 
-      let rulesAlreadyMatched = [];
+      let rulesAlreadyMatched: string[] = [];
       rules.forEach(rule => {
         const isMatch = rule.matcher(currState, numberOfNeighbours);
 
@@ -116,13 +106,5 @@ function calculateNewWorldState(engine) {
   })
 
   return newWorld;
-}
-
-module.exports = {
-  times,
-  getNumberOfNeighbours,
-  initWorld,
-  draw,
-  calculateNewWorldState
 }
 
