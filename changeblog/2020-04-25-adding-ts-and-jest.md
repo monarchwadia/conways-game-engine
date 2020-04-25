@@ -42,15 +42,15 @@ I decided that I'd first install unit testing and fully test the project in plai
 
 This current commit adds the HOW-I-DID-IT md file to this project.
 
-# Adding unit tests
+# Phase 1 -Adding unit tests
 
-## Step 0 - I started the changeblog
+## Phase 0 - I started the changeblog
 
 I've never done this before, but `changeblog` sounds like a good name for documenting changes as you go in a project. So I'm committing this file here.
 
 So, here's the [link to the git commit for this section][commit-0] in case you want to follow along. Each section below will have a link to the git commit associated with it.
 
-## Step 1a - Adding unit tests for drawing and erasing.
+## Phase 1a - Adding unit tests for drawing and erasing.
 
 I first installed `jest`, then added a `test` script to `package.json`
 
@@ -88,7 +88,7 @@ Watch Usage: Press w to show more.
 
 Excellent! Here's the [link to the git commit for this section][commit-1a] in case you want to follow along.
 
-## Step 1b - Adding a simple test for the engine's default Game of Life ruleset
+## Phase 1b - Adding a simple test for the engine's default Game of Life ruleset
 
 Now we will actually test the game engine itself, with the default rules. We will test the rules by seeing if a simple glider survives and behaves as expected in the normal rules of the game of life. This will be sufficient to give me enough confidence in the game to start moving to typescript.
 
@@ -140,7 +140,7 @@ Now, I can test a step like so:
 
 I have a glider test fully operational now. Here's the [link to the commit for this section][commit-1b] in case you want to follow along.
 
-## Step 1c - Adding a simple test for the engine's configurable rules.
+## Phase 1c - Adding a simple test for the engine's configurable rules.
 
 The engine is supposed to be able to take various different rulesets, not just Conway's game of life. We'll now add a simple test for the rulesets.
 
@@ -166,9 +166,108 @@ I want people to be able to follow along with my thought process. So I've added 
 
 Copious use of `git commit --amend` and `git push --force` let me keep this commit clean. Thank you, Linus Torvalds, for making a sensible version control system that is easy to work with.
 
+# Phase 2 - Adding Typescript
+
+To start adding Typescript, we must, of course, install Typescript. But we also need to make sure that Jest doesn't freak out about it -- and that TS like show the JS files look, and vice versa. So writing this sentence, I'm expecting a few issues that could possibly make me spend a lot of time in tinkering around with build processes. (I think of that stuff as the "plumbing". Not necessarily fun work, but it is rewarding when you've finished up and built a good, solid build process that really works.)
+
+To avoid unnecessary issues when converting JS files to TS, I usually start with the fringes of my project's dependency tree and work towards the main files. This way, I don't fall into the trap of resolving long chains of TS typechecking errors. Instead, the leaves and branches of my dependency tree -- the files that have the least number of imports -- are converted to TS first. For every file thus converted, Intellisense starts offering much more useful hints, making working with other JS files incrementally easier. Essentially, I'm not going against the grain. Instead, I'm working WITH the toolset, in an incremental way.
+
+This project is super easy. There aren't that many files. I'll start with `constants.js`, then move on to `utils.js`, then convert `index.js`. Then I will convert the `test` files we just made in the previous phase. Finally, I'll modify the examples to use typescript, and we will be done. 
+
+So let's have at it.
+
+## Phase 2a - Installing Typescript 
+
+Installing typescript is pretty easy.
+
+```
+yarn add -D typescript
+```
+
+But that's just the beginning. According to [Jest's getting started guide](https://jestjs.io/docs/en/getting-started.html), Jest will NOT type-check files as the tests are run. Furthermore, it also relies on Babel presets. I didn't really want to get involved with Babel right away, because I'll be looking that in the next phase anyway to build browser support.
+
+Fortunately, I found an alternative pretty quickly. The same Jest getting started guide references a community package, [ts-jest](https://github.com/kulshekhar/ts-jest), which seems a bit nicer to use with Typescript in the mix. I don't usually like installing community packages, but this seems like the easiest way to get up and running.
+
+```
+## I didn't need jest or typescript since I had already installed them by this point.
+# yarn add -D jest typescript
+
+## But I still needed ts-jest, and @typefiles for jest.
+yarn add -D ts-jest @types/jest
+
+## And I also needed to create the ts-jest config. This overrides my existing jest config. I just copied entries from the old config over after re-initializing the config like so:
+npx ts-jest config:init
+```
+
+At this point, `yarn test` goes off without a fight, and I'm happily running with a typescript-based Jest config.
+
+Now, we can actually start working with the files themselves.
+
+## Phase 2a - Converting our first file
+
+Thanks to the great interop between Typescript and vanilla Javascript, converting a file to Typescript is a simple 2-step process:
+
+1. Rename the file from `*.js` to `*.ts`
+1. Resolve any errors that may have occurred
+
+As soon as I renamed `constants.js`, it was no longer found by `jest`. However, Jest's error messages were super helpful and immediately gave me the solution to the problem:
+
+```
+    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['js', 'json', 'jsx', 'ts', 'tsx', 'node'].
+```
+
+Armed with this info, I added the following line to my `jest.config.js`:
+
+```
+{
+  // ...
+  moduleFileExtensions: ["js", "jsx", "json", "ts", "tsx"]
+}
+```
+
+This seemed to work, and `constants.ts` was now being recognized correctly.
+
+I was also happy to discover that our static-phase typechecking was working just fine. My CommonJS syntax was now being rejected by typescript:
+
+```
+ FAIL  test/defaultRules.test.js
+  ● Test suite failed to run
+
+    constants.ts:1:1 - error TS2304: Cannot find name 'exports'.
+
+    1 exports.ON = 1;
+      ~~~~~~~
+    constants.ts:2:1 - error TS2304: Cannot find name 'exports'.
+
+    2 exports.OFF = 0;
+      ~~~~~~~
+    constants.ts:3:1 - error TS2304: Cannot find name 'exports'.
+
+    3 exports.INHERIT = undefined;
+      ~~~~~~~
+```
+
+The solution to this issue is to use ES6 Module syntax (i.e. `export` and `import`). 
+
+Here's what the new file looks like:
+```javascript
+// OLD constants.js, as it was
+exports.ON = 1;
+exports.OFF = 0;
+exports.INHERIT = undefined;
+
+// RENAMED constants.ts, with the new entries
+export const ON = 1;
+export const OFF = 0;
+export const INHERIT = undefined;
+```
+
+I'm expecting this to be an issue with every single file I edit.
+
+
+
 [starting-commit]: https://github.com/monarchwadia/conways-game-engine/tree/v1.0.1
 [commit-0]: https://github.com/monarchwadia/conways-game-engine/commit/0bb4fc500fd84b4734270a3bb38ab3a115e55819
 [commit-1a]: https://github.com/monarchwadia/conways-game-engine/commit/661ab3bb84b3d7af71ebf6a26e77661c1a645949
 [commit-1b]: https://github.com/monarchwadia/conways-game-engine/commit/b3596d93916d8a6826b1d1a895660045e89de127
 [commit-1c]: https://github.com/monarchwadia/conways-game-engine/commit/fa1229382fcc9e4247d7f120f3c384f7e6ebb1e3
-
