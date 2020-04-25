@@ -8,6 +8,10 @@ This is a very simple implementation of Conway's Game of Life, whipped up in abo
 
 The configurable rules are pretty interesting and are worth playing around with.
 
+## Read the changeblog!
+
+Starting with v1.1.0 (which adds Typescript support), I'm documenting all changes to this project. You can read the changeblog [here](changeblog/2020-04-25-adding-ts-and-jest.md). I hope you enjoy it!
+
 ## Usage
 
 See [examples/simple-node](./examples/simple-node/index.js)

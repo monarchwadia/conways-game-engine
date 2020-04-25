@@ -1,22 +1,23 @@
-# Background
+# First Changeblog entry: adding unit testing (jest), typescript, and browser support (webpack + babel) to an already-published Node package.
 
+## Background about why I'm doing this.
 I love simulation games. I grew up playing SimAnt, CimCity, SimTower, Railroad Tycoon, Rollercoaster Tycoon, SimEarth -- bunches and bunches of simulation games made up a large part of my childhood.
 
 And cellular automata are the haiku of simulation games -- they come with tiny rules, which you can tinker with ad-infinitum to create worlds out of thin air. They're really quite elegant and fun to play with.
 
-I wanted to have a way to experiment with cellular automata by tweaking rules and what not. [Conway's Game Engine](TODO) is an implementation of Conway's Game of Life that lets you configure your own rulesets.
+I wanted to have a way to experiment with cellular automata by tweaking rules and what not. [Conway's Game Engine](https://www.npmjs.com/package/@monarchwadia/conways-game-engine) is an implementation of Conway's Game of Life that lets you configure your own rulesets.
 
-I built this as part of a [Mintbean Hackathon](TODO), so it was really a quick and dirty creation. I left it in a working state, but it was going to be difficult to use without static typing.
+I built this as part of a [Mintbean Hackathon](https://github.com/MintbeanHackathons/2020-04-19-Conways-Game-of-Life-4-day-extended), so it was really a quick and dirty creation. I left it in a working state, but it was going to be difficult to use without static typing.
 
 So I'm writing this document as I go, implementing static typing. I hope it's useful as a case study for people some time in the future.
 
-# Starting point
+## Starting point
 
 The game engine as it exists right now is Node-compatible, and can be installed using `npm install @monarch/conways-game-engine`. It totally works and you can read the docs to get an idea for how it works. It is NOT browser-friendly without further modifications, and does not come out-of-the-box with any GUI of any sort (although there are some simple terminal-based examples in the `/examples` folder). It is strictly a game engine.
 
-I started with this hash: [608fe40e08b4f90d41fc60ff8d7929c7ac379ccc]("Todo: Link to the hash on Github"), and I had a few specific changes I wanted to make.
+I started with v1.0.1 of the project: [v1.0.1][starting-commit], and I had a few specific changes I wanted to make.
 
-# Target state
+## Target state
 
 Here are a few modifications that needed to be made:
 
@@ -26,14 +27,14 @@ Here are a few modifications that needed to be made:
 | Example projects | Node only  | I want some browser examples | It makes no sense to make a game backend-only. I want to create a frontend game out of this project and then deploy it to a website. |
 | Testing | None | I want to use Jest | Adding testing isn't ALWAYS a good idea. For example, in personal projects like this one, they're often unnecessary and can really suck the fun out of development. Testing is just a tool, and I don't buy into the test-driven fetish our industry is plagued with. But when you're expanding an existing backend project that has no GUI, automatic test runners make you go much faster without breaking things. I'm using Jest because it's more fun and less fiddly to use than Mocha/Chai |
 
-# Constraints
+## Constraints
 
 Here are the constraints I'm working with:
 
 1. I only have max. 4 hours to spend on this project, and any extra time spent on this project would take away from my business.
 1. I am documenting all of my changes, which further eats into those 4 hours.
 
-# Strategy
+## Strategy
 
 Typescript works pretty well with plain JavaScript. It is completely possible to gradually port JS over to TS one step at a time, rather than as a whole. So we will start porting JS over one small step at a time.
 
@@ -41,11 +42,15 @@ I decided that I'd first install unit testing and fully test the project in plai
 
 This current commit adds the HOW-I-DID-IT md file to this project.
 
-# Step 0 - I started the changeblog
+# Adding unit tests
+
+## Step 0 - I started the changeblog
 
 I've never done this before, but `changeblog` sounds like a good name for documenting changes as you go in a project. So I'm committing this file here.
 
-# Step 1a - Adding unit tests for drawing and erasing.
+So, here's the [link to the git commit for this section][commit-0] in case you want to follow along. Each section below will have a link to the git commit associated with it.
+
+## Step 1a - Adding unit tests for drawing and erasing.
 
 I first installed `jest`, then added a `test` script to `package.json`
 
@@ -81,9 +86,9 @@ Watch Usage: Press w to show more.
 
 ```
 
-Excellent!
+Excellent! Here's the [link to the git commit for this section][commit-1a] in case you want to follow along.
 
-# Step 1b - Adding a simple test for the engine's default Game of Life ruleset
+## Step 1b - Adding a simple test for the engine's default Game of Life ruleset
 
 Now we will actually test the game engine itself, with the default rules. We will test the rules by seeing if a simple glider survives and behaves as expected in the normal rules of the game of life. This will be sufficient to give me enough confidence in the game to start moving to typescript.
 
@@ -133,9 +138,9 @@ Now, I can test a step like so:
 
 ```
 
-I have a glider test fully operational now.
+I have a glider test fully operational now. Here's the [link to the commit for this section][commit-1b] in case you want to follow along.
 
-# Step 1c - Adding a simple test for the engine's configurable rules.
+## Step 1c - Adding a simple test for the engine's configurable rules.
 
 The engine is supposed to be able to take various different rulesets, not just Conway's game of life. We'll now add a simple test for the rulesets.
 
@@ -152,3 +157,18 @@ So essentially, all cells are blinking lights that go ON-OFF-ON-OFF-ON, etc.
 Then I tested it. It worked as expected.
 
 Great! Now I'm confident enough to move on to actual typescript conversion. "Testing" is now done.
+
+Here's the [link to the git commit for this section][commit-1c] in case you want to follow along.
+
+## Minor changes: adding commit hashes, and exposing this on README.md, formatting this README.md
+
+I want people to be able to follow along with my thought process. So I've added links to hashes at the end of each section above. I also added the link to this file on README.md. Also formatted the README so it's easier to read, and changed the title to make it more clear about what I'm doing here.
+
+Copious use of `git commit --amend` and `git push --force` let me keep this commit clean. Thank you, Linus Torvalds, for making a sensible version control system that is easy to work with.
+
+[starting-commit]: https://github.com/monarchwadia/conways-game-engine/tree/v1.0.1
+[commit-0]: https://github.com/monarchwadia/conways-game-engine/commit/0bb4fc500fd84b4734270a3bb38ab3a115e55819
+[commit-1a]: https://github.com/monarchwadia/conways-game-engine/commit/661ab3bb84b3d7af71ebf6a26e77661c1a645949
+[commit-1b]: https://github.com/monarchwadia/conways-game-engine/commit/b3596d93916d8a6826b1d1a895660045e89de127
+[commit-1c]: https://github.com/monarchwadia/conways-game-engine/commit/fa1229382fcc9e4247d7f120f3c384f7e6ebb1e3
+
