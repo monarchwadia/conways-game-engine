@@ -5,7 +5,8 @@
   "author": "Monarch Wadia <monarch@zeroprojects.ca>",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jest --watchAll"
   },
   "description": "Game engine for Conway's Game of Life with customizable cellular automaton rules and 0 dependencies.",
   "directories": {
@@ -30,5 +31,8 @@
   "bugs": {
     "url": "https://github.com/monarchwadia/conways-game-engine/issues"
   },
-  "homepage": "https://github.com/monarchwadia/conways-game-engine#readme"
+  "homepage": "https://github.com/monarchwadia/conways-game-engine#readme",
+  "devDependencies": {
+    "jest": "^25.4.0"
+  }
 }

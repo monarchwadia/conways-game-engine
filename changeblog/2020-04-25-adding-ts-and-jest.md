@@ -42,3 +42,42 @@ This current commit adds the HOW-I-DID-IT md file to this project.
 # Step 0 - I started the changeblog
 
 I've never done this before, but `changeblog` sounds like a good name for documenting changes as you go in a project. So I'm committing this file here.
+
+# Step 1 - Adding unit tests.
+
+I first installed `jest`, then added a `test` script to `package.json`
+
+```
+# terminal
+yarn add -D jest
+
+# package.json
+{
+  "scripts": {
+    "test": "jest --watchAll"
+  }
+}
+```
+
+( I used `--watchAll` instead of `--watch`. Jest's `--watch` command only runs tests on files that have diffed. For now, we have so few tests, and our project is so lightweight, that a comprehensive test of all files would let me sleep better at night. So, I'm using `--watchAll`).
+
+I added a few simple tests in `/test`, then run `yarn test`, and here is our output:
+
+```
+ PASS  test/draw.test.js
+  ✓ It can draw and then erase a simple cell (4ms)
+  ✓ Drawing multiple times is idempotent (2ms)
+  ✓ Erasing multiple times is idempotent (1ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       3 passed, 3 total
+Snapshots:   0 total
+Time:        1.21s
+Ran all test suites.
+
+Watch Usage: Press w to show more.
+
+```
+
+Excellent!
+
