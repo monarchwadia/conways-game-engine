@@ -1,13 +1,14 @@
 {
   "name": "@monarchwadia/conways-game-engine",
   "version": "1.0.0",
-  "main": "dist/bundle.js",
+  "main": "dist/conways-game-engine.js",
   "author": "Monarch Wadia <monarch@zeroprojects.ca>",
   "license": "MIT",
   "scripts": {
     "start": "node index.js",
     "test": "jest --watchAll",
-    "build": "webpack"
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "description": "Game engine for Conway's Game of Life with customizable cellular automaton rules.",
   "directories": {

@@ -1,7 +1,6 @@
 import { initWorld, getNumberOfNeighbours, calculateNewWorldState } from './utils';
 import { ON, OFF } from './constants';
-
-import { ConwaysGameEngineInterface, World, Config, Rule } from './interfaces';
+import { ConwaysGameEngineInterface, World, Config, Rule } from './interface';
 
 export class ConwaysGameEngine implements ConwaysGameEngineInterface {
   world: World;
@@ -62,3 +61,5 @@ export const defaultRules = (): Rule[] => [
     result: ON
   }
 ];
+
+export default ConwaysGameEngine;

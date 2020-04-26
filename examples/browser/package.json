@@ -7,7 +7,7 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@monarchwadia/conways-game-engine": "1.1.0"
+    "@monarchwadia/conways-game-engine": "1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

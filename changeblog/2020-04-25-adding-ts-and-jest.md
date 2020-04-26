@@ -266,7 +266,7 @@ export const INHERIT = undefined;
 
 I'm expecting this to be an issue with every single file I edit. 
 
-Next, we're going to convert the rest of the project over.
+Next, I'm going to convert the rest of the project over.
 
 So now that that's done, [here's the commit][commit-2a] for this section.
 
@@ -299,9 +299,9 @@ I see the need now for a bit of a refactor. The project is a bit messy right now
 
 Finally, I'm done with building unit testing and converting the project to typescript. Now, I can focus on building a browser-based project.
 
-As you know, browsers don't support Typescript out of the box, so we have to compile our project down into a format that can be ingested by other projects.
+As you know, browsers don't support Typescript out of the box, so I have to compile our project down into a format that can be ingested by other projects.
 
-# Phase 3a - Creating the build step
+## Phase 3a - Creating the build step
 
 I actually hadn't built the project at all yet. I was just running off Jest. It's now finally time to create a build step.
 
@@ -338,10 +338,25 @@ Unfortunately, I quickly found out that my project was not able to be imported c
 }
 ```
 
-On running the project now, a simple `console.log` of the library's exports shows that we are exporting our project correctly.
+On running the project now, a simple `console.log` of the library's exports shows that I am exporting our project correctly.
 
-This was a very messy entry. [Here is a link to the commit][commit-3a], there you can see the extent of my work here. I'm now going to build a simple browser-based version of the project.
+This was a very messy entry. [Here is a link to the commit][commit-3a], there you can see the extent of my work here. 
 
+I'm now going to build a simple browser-based version of the project.
+
+## Phase 3b - Typescript type definition export woes
+
+The project exports are being detected by VSCode as `any` type. This is frustrating. But it is now solved.
+
+Turns out that exporting a Typescript module with type definition files is harder than it looks at first glance. After wrestling with build tools, it came to light that webpack+typescript is totally capable of doing this for us, but the assumption is that the name of the module and the name of the typescript d.ts file must be exactly the same.
+
+I made sure this was the case. Now, `dist/conways-game-engine.js` and `dist/conways-game-engine.d.ts` are in-sync. There are extra definition files in there, too, that are referred to by `conways-game-engine.d.ts`
+
+Overall, a frustrating experience, but it's now working as expected.
+
+As a bonus, it is now also possible to use the library as a window object inside a browser. If the project is included in a `<script src="...">` tag, it should add the project to the window object at `window["@monarchwadia/conways-game-engine"]`. This was, the project can be included using a CDN. Cool!
+
+Amazing. Now that I'm past these hurdles, I'm finally ready to start building the project itself.
 
 [starting-commit]: https://github.com/monarchwadia/conways-game-engine/tree/v1.0.1
 [commit-0]: https://github.com/monarchwadia/conways-game-engine/commit/0bb4fc500fd84b4734270a3bb38ab3a115e55819
@@ -350,4 +365,5 @@ This was a very messy entry. [Here is a link to the commit][commit-3a], there yo
 [commit-1c]: https://github.com/monarchwadia/conways-game-engine/commit/fa1229382fcc9e4247d7f120f3c384f7e6ebb1e3
 [commit-2a]: https://github.com/monarchwadia/conways-game-engine/commit/0e1c64be1a78239290872782e0b7d324efa3962a
 [commit-2b]: https://github.com/monarchwadia/conways-game-engine/commit/aff796c31a2eb186d11f1ab4233d96639393d74d
-[commit-3a]: https://github.com/monarchwadia/conways-game-engine/commit/TODO
+[commit-3a]: https://github.com/monarchwadia/conways-game-engine/commit/6183559fd643148d61364b2b419a91a9f2a45344
+[commit-3b]: https://github.com/monarchwadia/conways-game-engine/commit/TODO

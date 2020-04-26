@@ -797,10 +797,10 @@
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.5.tgz#b32366c89b43c6f8cefbdefac778b9c828e3ba8c"
   integrity sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==
 
-"@monarchwadia/conways-game-engine@1.1.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@monarchwadia/conways-game-engine/-/conways-game-engine-1.0.1.tgz#c8853a16d3e92596d23aefc9bdf42a86d3c96444"
-  integrity sha512-EAYnswNhJKle5UNtvz+Pf5WbMfRtrEvdeWWCPBATyaC2ZRQ06XmaufWtJmPUSxgugwM5aGtuPDI0TSWkF01LbQ==
+"@monarchwadia/conways-game-engine@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@monarchwadia/conways-game-engine/-/conways-game-engine-1.0.0.tgz#a84bc0408379f3b38bf4115a9f5dcc071f232a6e"
+  integrity sha512-ukmuqnHrH2C/cxaBhkdwnzPkyIuu4YNNR5MTdQMT7qpBxGY947BCMWPCFAz+VAsNYCrKyhZq6FHri866LQYCUA==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"

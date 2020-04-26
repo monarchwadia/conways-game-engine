@@ -7,6 +7,8 @@
     "module": "ES2015",
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "sourceMap": true,
+    "declaration": true,
     "lib": [
       "es2016",
       "es5",
@@ -14,6 +16,6 @@
     ]
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/conways-game-engine.ts"
   ]
 }

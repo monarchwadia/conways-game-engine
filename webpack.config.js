@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/conways-game-engine.ts',
   mode: process.env.NODE_ENV || 'development',
   module: {
     rules: [
@@ -16,9 +16,10 @@ module.exports = {
     extensions: [".ts", ".js", ".jsx", ".json", ".tsx"],
   },
   output: {
-    filename: 'bundle.js',
+    filename: 'conways-game-engine.js',
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: "umd",
-    library: "@monarchwadia/conways-game-engine"
+    library: "@monarchwadia/conways-game-engine",
+    // umdNamedDefine: true
   },
 };
