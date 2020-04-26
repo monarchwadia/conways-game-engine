@@ -364,6 +364,16 @@ I went in and fixed the old simple-node and custom-rules projects. these were bo
 
 I finished the web-based project in a matter of minutes. It was extremely simple to do, actually. Amazing. [Here's the commit][commit-3c]
 
+# Finished.
+
+Overall, that wasn't so bad. I did take a lunch break in the middle, but it still ended up taking ~7 hours of work instead of ~4.
+
+A lot of the time went into actually documenting things here for you guys. And a lot more time went into configuring webpack/typescript. Overall it wasn't a bad experience, and I hope this proves useful to someone who wants a blow-by-blow of how to convert JS to TS.
+
+If you've made it thus far, thanks for going through this with me. I am now going to `npm version minor` and publish this library.
+
+Adios!
+
 [starting-commit]: https://github.com/monarchwadia/conways-game-engine/tree/v1.0.1
 [commit-0]: https://github.com/monarchwadia/conways-game-engine/commit/0bb4fc500fd84b4734270a3bb38ab3a115e55819
 [commit-1a]: https://github.com/monarchwadia/conways-game-engine/commit/661ab3bb84b3d7af71ebf6a26e77661c1a645949
@@ -373,4 +383,5 @@ I finished the web-based project in a matter of minutes. It was extremely simple
 [commit-2b]: https://github.com/monarchwadia/conways-game-engine/commit/aff796c31a2eb186d11f1ab4233d96639393d74d
 [commit-3a]: https://github.com/monarchwadia/conways-game-engine/commit/6183559fd643148d61364b2b419a91a9f2a45344
 [commit-3b]: https://github.com/monarchwadia/conways-game-engine/commit/d93ef5e07f5b3d9d419ba7e0823e5b53017c3c29
-[commit-3c]: https://github.com/monarchwadia/conways-game-engine/commit/TODO
+[commit-3c]: https://github.com/monarchwadia/conways-game-engine/commit/dc1d32ab1185ee1dc0c97616c61a03d6198229e1
+
