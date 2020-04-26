@@ -1,4 +1,4 @@
-const { ConwaysGameEngine, defaultRules } = require('../../index');
+const { ConwaysGameEngine, defaultRules } = require('../../dist/conways-game-engine');
 const { renderer } = require('./renderer');
 
 // init engine

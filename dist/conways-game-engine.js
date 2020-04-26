@@ -7,7 +7,7 @@
 		exports["@monarchwadia/conways-game-engine"] = factory();
 	else
 		root["@monarchwadia/conways-game-engine"] = factory();
-})(window, function() {
+})(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};

@@ -20,6 +20,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: "umd",
     library: "@monarchwadia/conways-game-engine",
+    globalObject: 'this'
     // umdNamedDefine: true
   },
 };

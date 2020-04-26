@@ -1,5 +1,5 @@
 import { buildGridTesterBuilder } from './helpers.types';
-import { ConwaysGameEngine } from '../src/index';
+import { ConwaysGameEngine } from '../src/conways-game-engine';
 
 declare const buildGridTesterBuilder: buildGridTesterBuilder;
 

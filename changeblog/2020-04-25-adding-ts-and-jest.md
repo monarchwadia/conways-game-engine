@@ -356,7 +356,13 @@ Overall, a frustrating experience, but it's now working as expected.
 
 As a bonus, it is now also possible to use the library as a window object inside a browser. If the project is included in a `<script src="...">` tag, it should add the project to the window object at `window["@monarchwadia/conways-game-engine"]`. This was, the project can be included using a CDN. Cool!
 
-Amazing. Now that I'm past these hurdles, I'm finally ready to start building the project itself.
+Amazing. Now that I'm past these hurdles, [here's the commit][commit-3b]. I'm finally ready to start building the project itself.
+
+## Phase 3c - The web-based project
+
+I went in and fixed the old simple-node and custom-rules projects. these were both based on node. At first they were complaining about `ReferenceError: window is not defined` but this was fixed easily adding `globalObject: 'this'` in `webpack.config.js`
+
+I finished the web-based project in a matter of minutes. It was extremely simple to do, actually. Amazing. [Here's the commit][commit-3c]
 
 [starting-commit]: https://github.com/monarchwadia/conways-game-engine/tree/v1.0.1
 [commit-0]: https://github.com/monarchwadia/conways-game-engine/commit/0bb4fc500fd84b4734270a3bb38ab3a115e55819
@@ -366,4 +372,5 @@ Amazing. Now that I'm past these hurdles, I'm finally ready to start building th
 [commit-2a]: https://github.com/monarchwadia/conways-game-engine/commit/0e1c64be1a78239290872782e0b7d324efa3962a
 [commit-2b]: https://github.com/monarchwadia/conways-game-engine/commit/aff796c31a2eb186d11f1ab4233d96639393d74d
 [commit-3a]: https://github.com/monarchwadia/conways-game-engine/commit/6183559fd643148d61364b2b419a91a9f2a45344
-[commit-3b]: https://github.com/monarchwadia/conways-game-engine/commit/TODO
+[commit-3b]: https://github.com/monarchwadia/conways-game-engine/commit/d93ef5e07f5b3d9d419ba7e0823e5b53017c3c29
+[commit-3c]: https://github.com/monarchwadia/conways-game-engine/commit/TODO
